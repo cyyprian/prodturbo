@@ -24,7 +24,7 @@ Do not create branches, edit files, or post anything before the plan is approved
 
 ## 3. Start the branch (after approval)
 1. `git checkout dev && git pull`
-2. Create the branch as a linked branch of the issue, so it shows in the issue's **Development** section:
+2. Create the branch as a linked branch of the issue:
    `gh issue develop $ARGUMENTS --base dev --name issue-$ARGUMENTS-<short-kebab-slug-from-title> --checkout`
 3. Post the approved plan on the issue with a "## Plan" heading: `gh issue comment $ARGUMENTS --body-file <file>`.
 
@@ -40,7 +40,7 @@ Do not create branches, edit files, or post anything before the plan is approved
 ## 6. Pull request
 - `git push -u origin HEAD`
 - `gh pr create --base dev --title "<concise title>" --body "<summary>\n\nCloses #$ARGUMENTS"`
-- Check that the issue and the PR are linked in the Development section, e.g. that `gh issue develop $ARGUMENTS --list` shows the branch and the issue page lists the PR. If they are not linked, tell me so I can link them by hand in the PR's sidebar.
+- GitHub does not link a PR into `dev` to its issue in the Development section. `Closes #N` is ignored for non-default bases, the linked branch doesn't do it, and there is no API for it. Ask me to link the issue by hand from the PR's sidebar: Development → gear → pick the issue.
 
 ## 7. Hand off for review
 - Do **not** enable auto-merge or merge the PR. Leave it open for my review.
