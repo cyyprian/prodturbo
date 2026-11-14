@@ -2,7 +2,8 @@
 
 ## Workflow
 
-- Work starts from a GitHub issue: run `/work-issue <number>` in plan mode (see `.claude/commands/work-issue.md`). The command pins its own model and effort.
+- Work starts from a GitHub issue: run `/work-issue <number>` in plan mode. The command comes from the `work-issue` plugin in this repo (`plugins/work-issue/commands/work-issue.md`, marketplace `prodturbo`, enabled in `.claude/settings.json`) and pins its own model and effort.
+- Installed copies of the plugin follow `main`, so changes merged into `dev` reach projects only after a release to `main`. To try an edit before then, run `claude --plugin-dir plugins/work-issue`.
 - One issue → one branch → one PR. During exploration `/work-issue` checks the issue's scope; if it spans several responsibilities or areas, the plan proposes sub-issues instead. Once the split is approved, they're created as GitHub sub-issues of the parent, which stays open as the tracking issue, and each one is worked with its own `/work-issue` run.
 - Branch from an up-to-date `dev` as `issue-<N>-<short-slug>`, created with `gh issue develop <N> --base dev --name issue-<N>-<short-slug> --checkout`. This creates a linked branch of the issue. Open PRs against `dev`.
 - Reference the issue in every commit message, e.g. `feat: add X (#N)`.
