@@ -1,0 +1,10 @@
+{
+  "extraKnownMarketplaces": {
+    "prodturbo": {
+      "source": { "source": "github", "repo": "cyyprian/prodturbo" }
+    }
+  },
+  "enabledPlugins": {
+    "work-issue@prodturbo": true
+  }
+}
