@@ -17,9 +17,17 @@ Releases move `dev` to `main`, where installed copies of the plugin read it from
 1. On a `dev` branch PR, bump `version` in `plugins/work-issue/.claude-plugin/plugin.json` (semver: patch for fixes, minor for new behavior, major for breaking changes to the workflow). Without a bump, installed copies don't update.
 2. Run `claude plugin validate .` and `claude plugin validate plugins/work-issue`.
 3. Open a PR from `dev` into `main` titled `Release vX.Y.Z`, listing the changes since the last release.
-4. Merge it with a **merge commit** (`gh pr merge <PR> --merge`), not a squash, so `main` stays an ancestor of `dev`. Don't delete `dev`.
-5. Tag and publish: `gh release create vX.Y.Z --target main --title vX.Y.Z --generate-notes`.
-6. Users update with `/plugin marketplace update prodturbo`.
+4. Merge it with a **merge commit** (`gh pr merge <PR> --merge`), not a squash. Don't delete `dev`.
+5. The merge commit exists only on `main`, so fast-forward `dev` to it to keep `main` an ancestor of `dev` (the trees are identical, so this changes no files):
+   ```
+   git fetch && git checkout dev && git merge --ff-only origin/main && git push origin dev
+   ```
+6. Tag and publish. Push the tag first: `gh release create` asks for the `workflow` token scope when it has to create the tag itself.
+   ```
+   git tag -a vX.Y.Z origin/main -m vX.Y.Z && git push origin vX.Y.Z
+   gh release create vX.Y.Z --verify-tag --title vX.Y.Z --generate-notes
+   ```
+7. Users update with `/plugin marketplace update prodturbo`.
 
 ## Checks
 
