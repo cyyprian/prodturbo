@@ -1,15 +1,15 @@
 {
-  "name": "prodturbo",
+  "name": "turboprod",
   "owner": {
     "name": "cyyprian"
   },
   "metadata": {
-    "description": "The prodturbo issue-to-PR workflow for Claude Code"
+    "description": "AI-driven development that transforms concepts into production-ready solutions, from initial vision to successful delivery"
   },
   "plugins": [
     {
-      "name": "work-issue",
-      "source": "./plugins/work-issue",
+      "name": "issue",
+      "source": "./plugins/issue",
       "description": "Take a GitHub issue from plan to a linked PR ready for review, and set a repo up for that workflow"
     }
   ]
