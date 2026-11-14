@@ -9,7 +9,7 @@ You are working on GitHub issue #$ARGUMENTS. Follow these phases in order. Use t
 
 ## 0. Setup (read-only)
 1. Tell me, in one line, the model, reasoning effort and permission mode you are running in. If this session is not in plan mode, recommend that I restart `/work-issue` in plan mode, then continue.
-2. Run `gh issue view $ARGUMENTS --comments` and read the issue fully.
+2. Run `gh issue view $ARGUMENTS --json title,body,comments,labels` and read the issue fully. (Use `--json`: `--comments` prints nothing when run without a terminal.)
 3. Make sure the working tree is clean (`git status`). If not, stop and tell me.
 
 Do not create branches, edit files, or post anything before the plan is approved.
