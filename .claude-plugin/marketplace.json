@@ -10,7 +10,7 @@
     {
       "name": "turboprod",
       "source": "./plugins/issue",
-      "description": "AI-driven development that transforms concepts into production-ready solutions, from initial vision to successful delivery"
+      "description": "Take a GitHub issue from plan to a linked PR ready for review, and set a repo up for that workflow"
     }
   ]
 }
