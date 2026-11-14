@@ -74,7 +74,13 @@ Finish by listing the sub-issue URLs and telling me to run `/work-issue <sub-iss
 - Verify both directions: `gh pr view --json closingIssuesReferences` lists the issue, and `gh issue view $ARGUMENTS --json closedByPullRequestsReferences` lists the PR. If either is missing, tell me.
 
 ## 7. Hand off for review
-- Do **not** enable auto-merge or merge the PR. Leave it open for my review.
-- `dev` is not the default branch, so merging won't close the issue automatically. Remind me to close it after merge (`gh issue close $ARGUMENTS`).
+- Do **not** enable auto-merge, and do not merge the PR until I explicitly tell you to. Leave it open for my review.
 
 Finish by giving me the PR URL and a one-line status.
+
+## 8. Merge (only when I tell you to merge)
+1. `gh pr merge <PR> --squash --delete-branch`
+2. `dev` is not the default branch, so merging doesn't close the issue. Close it: `gh issue close $ARGUMENTS`.
+3. Switch the local checkout to an up-to-date `dev`: `git checkout dev && git pull`.
+
+Confirm the PR is merged, the issue is closed, and the local branch is `dev`.
