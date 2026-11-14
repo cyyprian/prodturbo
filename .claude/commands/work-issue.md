@@ -10,7 +10,8 @@ You are working on GitHub issue #$ARGUMENTS. Follow these phases in order. Use t
 ## 0. Setup (read-only)
 1. Tell me, in one line, the model, reasoning effort and permission mode you are running in. If this session is not in plan mode, recommend that I restart `/work-issue` in plan mode, then continue.
 2. Run `gh issue view $ARGUMENTS --json title,body,comments,labels` and read the issue fully. (Use `--json`: `--comments` prints nothing when run without a terminal.)
-3. Make sure the working tree is clean (`git status`). If not, stop and tell me.
+3. Rename this session to `#$ARGUMENTS <issue title>` with `mcp__ccd_session_mgmt__set_session_title` (`session_id: "self"`). If the tool is deferred, load it first with ToolSearch (`select:mcp__ccd_session_mgmt__set_session_title`). If it isn't available (e.g. the CLI, not the desktop app), skip this step silently.
+4. Make sure the working tree is clean (`git status`). If not, stop and tell me.
 
 Do not create branches, edit files, or post anything before the plan is approved.
 
