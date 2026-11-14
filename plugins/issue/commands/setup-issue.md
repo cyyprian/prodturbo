@@ -1,16 +1,16 @@
 ---
-description: Set up the current repo for the /turboprod:issue workflow (dev branch, CLAUDE.md workflow, plugin settings)
+description: Set up the current repo for the /issue:start workflow (dev branch, CLAUDE.md workflow, plugin settings)
 disable-model-invocation: true
 ---
 
-Set up the current repository for the `/turboprod:issue` workflow. Use the `gh` CLI for all GitHub operations. Ask me before every step that changes something outside the working tree (creating or pushing branches, opening a PR), and never merge anything.
+Set up the current repository for the `/issue:start` workflow. Use the `gh` CLI for all GitHub operations. Ask me before every step that changes something outside the working tree (creating or pushing branches, opening a PR), and never merge anything.
 
 ## 1. Check (read-only)
 1. Confirm this folder is a git repository with a GitHub remote: `gh repo view --json nameWithOwner,defaultBranchRef`. If it isn't, stop and tell me.
 2. Confirm `gh auth status` succeeds. If it doesn't, stop and tell me to run `gh auth login`.
 3. Make sure the working tree is clean (`git status`). If not, stop and tell me.
 4. If the repository has no commits yet, stop and tell me to push an initial commit to the default branch first: the `dev` branch is cut from it.
-5. Report what is already in place: a `dev` branch (local and on `origin`), a `## Workflow` section in `CLAUDE.md`, and the `cyyprian` marketplace and `turboprod@cyyprian` entries in `.claude/settings.json`. Skip any step below whose result is already there.
+5. Report what is already in place: a `dev` branch (local and on `origin`), a `## Workflow` section in `CLAUDE.md`, and the `turboprod` marketplace and `issue@turboprod` entries in `.claude/settings.json`. Skip any step below whose result is already there.
 
 ## 2. `dev` branch
 If `origin/dev` doesn't exist, ask me, then create it from the up-to-date default branch and push it:
@@ -29,16 +29,16 @@ Add the section below, replacing `<default-branch>` with the repository's defaul
 ```markdown
 ## Workflow
 
-- Work starts from a GitHub issue: run `/turboprod:issue <number>` in plan mode. The command comes from the `turboprod` plugin (marketplace `cyyprian`) and pins its own model and effort.
-- One issue → one branch → one PR. During exploration `/turboprod:issue` checks the issue's scope; if it spans several responsibilities or areas, the plan proposes sub-issues instead. Once the split is approved, they're created as GitHub sub-issues of the parent, which stays open as the tracking issue, and each one is worked with its own `/turboprod:issue` run.
+- Work starts from a GitHub issue: run `/issue:start <number>` in plan mode. The command comes from the `issue` plugin (marketplace `turboprod`) and pins its own model and effort.
+- One issue → one branch → one PR. During exploration `/issue:start` checks the issue's scope; if it spans several responsibilities or areas, the plan proposes sub-issues instead. Once the split is approved, they're created as GitHub sub-issues of the parent, which stays open as the tracking issue, and each one is worked with its own `/issue:start` run.
 - Branch from an up-to-date `dev` as `issue-<N>-<short-slug>`, created with `gh issue develop <N> --base dev --name issue-<N>-<short-slug> --checkout`. This creates a linked branch of the issue. Open PRs against `dev`.
 - Reference the issue in every commit message, e.g. `feat: add X (#N)`.
 - Never enable auto-merge. PRs stay open for manual review. Merge only when explicitly told to; then squash-merge, close the issue, and switch the local checkout to an up-to-date `dev`.
-- The default branch is `<default-branch>`. A `Closes #N` in a PR into `dev` doesn't link the issue, and merging doesn't close it. `/turboprod:issue` links the issue and the PR through the GraphQL mutation `addCloseIssueReferences`, and closes the issue explicitly with `gh issue close <N>` after merging.
+- The default branch is `<default-branch>`. A `Closes #N` in a PR into `dev` doesn't link the issue, and merging doesn't close it. `/issue:start` links the issue and the PR through the GraphQL mutation `addCloseIssueReferences`, and closes the issue explicitly with `gh issue close <N>` after merging.
 
 ## Checks
 
-List the exact commands here so they run during the execute step of `/turboprod:issue`:
+List the exact commands here so they run during the execute step of `/issue:start`:
 
 - Tests: _TBD_
 - Lint: _TBD_
@@ -53,12 +53,12 @@ Add these entries so everyone who opens the repository in Claude Code is prompte
 ```json
 {
   "extraKnownMarketplaces": {
-    "cyyprian": {
+    "turboprod": {
       "source": { "source": "github", "repo": "cyyprian/turboprod" }
     }
   },
   "enabledPlugins": {
-    "turboprod@cyyprian": true
+    "issue@turboprod": true
   }
 }
 ```

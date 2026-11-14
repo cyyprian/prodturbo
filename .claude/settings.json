@@ -1,10 +1,10 @@
 {
   "extraKnownMarketplaces": {
-    "cyyprian": {
+    "turboprod": {
       "source": { "source": "github", "repo": "cyyprian/turboprod" }
     }
   },
   "enabledPlugins": {
-    "turboprod@cyyprian": true
+    "issue@turboprod": true
   }
 }
