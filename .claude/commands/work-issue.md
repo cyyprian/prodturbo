@@ -40,7 +40,13 @@ Do not create branches, edit files, or post anything before the plan is approved
 ## 6. Pull request
 - `git push -u origin HEAD`
 - `gh pr create --base dev --title "<concise title>" --body "<summary>\n\nCloses #$ARGUMENTS"`
-- GitHub does not link a PR into `dev` to its issue in the Development section. `Closes #N` is ignored for non-default bases, the linked branch doesn't do it, and there is no API for it. Ask me to link the issue by hand from the PR's sidebar: Development → gear → pick the issue.
+- Link the PR and the issue in the Development section. `Closes #N` is ignored for PRs into a non-default branch, so link them explicitly through the API:
+  ```
+  ISSUE_ID=$(gh issue view $ARGUMENTS --json id -q .id)
+  PR_ID=$(gh pr view --json id -q .id)
+  gh api graphql -f query='mutation($i:ID!,$p:ID!){addCloseIssueReferences(input:{issueId:$i,pullRequestIds:[$p]}){clientMutationId}}' -f i="$ISSUE_ID" -f p="$PR_ID"
+  ```
+- Verify both directions: `gh pr view --json closingIssuesReferences` lists the issue, and `gh issue view $ARGUMENTS --json closedByPullRequestsReferences` lists the PR. If either is missing, tell me.
 
 ## 7. Hand off for review
 - Do **not** enable auto-merge or merge the PR. Leave it open for my review.
