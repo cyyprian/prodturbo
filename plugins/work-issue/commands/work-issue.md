@@ -8,7 +8,7 @@ effort: high
 You are working on GitHub issue #$ARGUMENTS. Follow these phases in order. Use the `gh` CLI for all GitHub operations.
 
 ## 0. Setup (read-only)
-1. Tell me, in one line, the model, reasoning effort and permission mode you are running in. If this session is not in plan mode, recommend that I restart `/work-issue` in plan mode, then continue.
+1. Tell me, in one line, the model, reasoning effort and permission mode you are running in. Read the effort from `echo $CLAUDE_EFFORT` rather than guessing it. If this session is not in plan mode, recommend that I restart `/work-issue` in plan mode, then continue.
 2. Run `gh issue view $ARGUMENTS --json title,body,comments,labels` and read the issue fully. (Use `--json`: `--comments` prints nothing when run without a terminal.)
 3. Rename this session to `#$ARGUMENTS <issue title>` with `mcp__ccd_session_mgmt__set_session_title` (`session_id: "self"`). If the tool is deferred, load it first with ToolSearch (`select:mcp__ccd_session_mgmt__set_session_title`). If it isn't available (e.g. the CLI, not the desktop app), skip this step silently.
 4. Make sure the working tree is clean (`git status`). If not, stop and tell me.
@@ -65,7 +65,7 @@ Finish by listing the sub-issue URLs and telling me to run `/work-issue <sub-iss
 
 ## 6. Pull request
 - `git push -u origin HEAD`
-- `gh pr create --base dev --title "<concise title>" --body "<summary>\n\nCloses #$ARGUMENTS"`
+- Write the PR body (a summary, then a blank line and `Closes #$ARGUMENTS`) to a file, then `gh pr create --base dev --title "<concise title>" --body-file <file>`
 - Link the PR and the issue in the Development section. `Closes #N` is ignored for PRs into a non-default branch, so link them explicitly through the API:
   ```
   ISSUE_ID=$(gh issue view $ARGUMENTS --json id -q .id)
