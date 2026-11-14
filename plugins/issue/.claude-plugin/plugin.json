@@ -1,0 +1,10 @@
+{
+  "name": "turboprod",
+  "version": "1.0.1",
+  "description": "AI-driven development that transforms concepts into production-ready solutions, from initial vision to successful delivery",
+  "author": {
+    "name": "cyyprian"
+  },
+  "repository": "https://github.com/cyyprian/turboprod",
+  "license": "MIT"
+}
