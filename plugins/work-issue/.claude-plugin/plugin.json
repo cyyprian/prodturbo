@@ -1,6 +1,6 @@
 {
   "name": "work-issue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Take a GitHub issue from plan to a linked PR ready for review (/work-issue), and set a repo up for that workflow (/setup-work-issue)",
   "author": {
     "name": "cyyprian"
