@@ -10,7 +10,7 @@
     {
       "name": "issue",
       "source": "./plugins/issue",
-      "description": "Take a GitHub issue from plan to a linked PR ready for review, and set a repo up for that workflow"
+      "description": "Take a GitHub issue from plan to a linked PR ready for review"
     }
   ]
 }
