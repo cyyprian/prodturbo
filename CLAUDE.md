@@ -3,6 +3,7 @@
 ## Workflow
 
 - Work starts from a GitHub issue: run `/issue:start <number>` in plan mode. The command comes from the `issue` plugin in this repo (`plugins/issue/commands/start.md`, marketplace `turboprod`, enabled in `.claude/settings.json`) and pins its own model and effort.
+- The plugin has no setup step and writes nothing into a consumer project's `CLAUDE.md` or settings. Keep `start.md` self-contained: every rule a consumer project needs lives there, not in this file.
 - Installed copies of the plugin are read from `main` and update only when `version` in `plugins/issue/.claude-plugin/plugin.json` changes. Changes merged into `dev` reach projects only after a release (see **Release**). To try an edit before then, run `claude --plugin-dir plugins/issue`.
 - One issue → one branch → one PR. During exploration `/issue:start` checks the issue's scope; if it spans several responsibilities or areas, the plan proposes sub-issues instead. Once the split is approved, they're created as GitHub sub-issues of the parent, which stays open as the tracking issue, and each one is worked with its own `/issue:start` run.
 - Branch from an up-to-date `dev` as `issue-<N>-<short-slug>`, created with `gh issue develop <N> --base dev --name issue-<N>-<short-slug> --checkout`. This creates a linked branch of the issue. Open PRs against `dev`.
