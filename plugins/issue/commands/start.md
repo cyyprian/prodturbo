@@ -12,6 +12,8 @@ You are working on GitHub issue #$ARGUMENTS. Follow these phases in order. Use t
 2. Run `gh issue view $ARGUMENTS --json title,body,comments,labels` and read the issue fully. (Use `--json`: `--comments` prints nothing when run without a terminal.)
 3. Rename this session to `#$ARGUMENTS <issue title>` with `mcp__ccd_session_mgmt__set_session_title` (`session_id: "self"`). If the tool is deferred, load it first with ToolSearch (`select:mcp__ccd_session_mgmt__set_session_title`). If it isn't available (e.g. the CLI, not the desktop app), skip this step silently.
 4. Make sure the working tree is clean (`git status`). If not, stop and tell me.
+5. Find the default branch: `gh repo view --json defaultBranchRef -q .defaultBranchRef.name`. If this fails, stop and tell me (no GitHub remote, or `gh auth login` needed).
+6. Check whether `dev` exists on the remote: `git ls-remote --heads origin dev`. If it doesn't, say so; it is created in phase 3.
 
 Do not create branches, edit files, or post anything before the plan is approved.
 
@@ -49,14 +51,14 @@ Do not create branches, edit files, or post anything before the plan is approved
 Finish by listing the sub-issue URLs and telling me to run `/issue:start <sub-issue-number>` for each, in dependency order.
 
 ## 3. Start the branch (after approval)
-1. `git checkout dev && git pull`
+1. If `dev` doesn't exist on the remote, ask me, then create it from the up-to-date default branch: `git checkout <default-branch> && git pull && git checkout -b dev && git push -u origin dev`. Otherwise: `git checkout dev && git pull --prune`.
 2. Create the branch as a linked branch of the issue:
    `gh issue develop $ARGUMENTS --base dev --name issue-$ARGUMENTS-<short-kebab-slug-from-title> --checkout`
 3. Post the approved plan on the issue with a "## Plan" heading: `gh issue comment $ARGUMENTS --body-file <file>`.
 
 ## 4. Execute
 - Implement the approved plan. Keep commits small and focused; reference the issue in each message, e.g. `feat: add X (#$ARGUMENTS)`.
-- Run the project's tests, linter, and type checks (see CLAUDE.md). Fix failures before moving on.
+- Run the project's tests, linter, and type checks. Use the commands the project's `CLAUDE.md` lists; if it lists none, use the ones the project defines (e.g. `package.json` scripts, a `Makefile`, `pyproject.toml`); if you find none, ask me. Fix failures before moving on.
 - If the plan turns out to be wrong, stop and tell me instead of silently changing course.
 
 ## 5. Review
@@ -82,6 +84,6 @@ Finish by giving me the PR URL and a one-line status.
 ## 8. Merge (only when I tell you to merge)
 1. `gh pr merge <PR> --squash --delete-branch`
 2. `dev` is not the default branch, so merging doesn't close the issue. Close it: `gh issue close $ARGUMENTS`.
-3. Switch the local checkout to an up-to-date `dev`: `git checkout dev && git pull`.
+3. Switch the local checkout to an up-to-date `dev` and drop deleted remote branches: `git checkout dev && git pull --prune`.
 
 Confirm the PR is merged, the issue is closed, and the local branch is `dev`.
