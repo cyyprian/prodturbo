@@ -10,7 +10,7 @@ The plugin needs no setup and writes nothing into your project's `CLAUDE.md`. On
 
 ## Requirements
 
-- Claude Code, run in plan mode for `/issue:start`.
+- Claude Code. `/issue:start` works in plan mode and switches to it (with your approval) if the session isn't in it.
 - The [GitHub CLI](https://cli.github.com) (`gh`), signed in with `gh auth login`.
 - A git repository with a GitHub remote and at least one commit on its default branch.
 
@@ -30,7 +30,8 @@ Each collaborator installs it the same way, once per machine.
 
 ## Workflow
 
-- Work starts from a GitHub issue: run `/issue:start <N>` in plan mode.
+- Work starts from a GitHub issue: run `/issue:start <N>`, ideally in plan mode.
+- `/issue:start` runs on Opus at `high` effort, but only until your next message: that's how Claude Code applies a command's `model` and `effort`. Approving the plan in plan mode keeps the run in one turn. Anything you type later (a plan change, "merge") uses the session's model and effort. To keep them for the whole run, set `/model opus` and `/effort high`, or start with `claude --model opus --effort high --permission-mode plan`. A `CLAUDE_CODE_EFFORT_LEVEL` environment variable overrides the command's effort.
 - Branches are cut from `dev` as `issue-<N>-<slug>`, and pull requests target `dev`.
 - PRs are never auto-merged. Tell Claude to merge once you've reviewed one.
 - The full workflow is in [`start.md`](plugins/issue/commands/start.md). This repository's own [CLAUDE.md](CLAUDE.md) covers its release process and checks.

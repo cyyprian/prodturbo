@@ -1,6 +1,6 @@
 {
   "name": "issue",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Take a GitHub issue from plan to a linked PR ready for review",
   "author": {
     "name": "cyyprian"
