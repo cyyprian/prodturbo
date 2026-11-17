@@ -8,7 +8,9 @@ effort: high
 You are working on GitHub issue #$ARGUMENTS. Follow these phases in order. Use the `gh` CLI for all GitHub operations.
 
 ## 0. Setup (read-only)
-1. Tell me, in one line, the model, reasoning effort and permission mode you are running in. Read the effort from `echo $CLAUDE_EFFORT` rather than guessing it. If this session is not in plan mode, recommend that I restart `/issue:start` in plan mode, then continue.
+1. Tell me, in one line, the model, reasoning effort and permission mode you are running in. The effort for this run is `${CLAUDE_EFFORT}`: report that value, not a guess or a shell variable.
+   - You are in plan mode only if the system has told you plan mode is active. If it hasn't, switch with the `EnterPlanMode` tool (load it with ToolSearch `select:EnterPlanMode` if it is deferred); I approve the switch. If the tool isn't available or I decline, say so in one line and continue; the approval gate in phase 2 still applies. Don't recommend restarting.
+   - The `model` and `effort` set by this command last only until my next message. Approving the plan through ExitPlanMode keeps the run in one turn; anything I type afterwards (e.g. "go", changes to the plan, "merge") runs on the session's own model and effort. If the effort above isn't `high`, a `CLAUDE_CODE_EFFORT_LEVEL` environment variable is overriding it: tell me so in one line.
 2. Run `gh issue view $ARGUMENTS --json title,body,comments,labels` and read the issue fully. (Use `--json`: `--comments` prints nothing when run without a terminal.)
 3. Rename this session to `#$ARGUMENTS <issue title>` with `mcp__ccd_session_mgmt__set_session_title` (`session_id: "self"`). If the tool is deferred, load it first with ToolSearch (`select:mcp__ccd_session_mgmt__set_session_title`). If it isn't available (e.g. the CLI, not the desktop app), skip this step silently.
 4. Make sure the working tree is clean (`git status`). If not, stop and tell me.
